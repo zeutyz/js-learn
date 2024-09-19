@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Ex2</title>
+  </head>
+  <script>
+    function mathOperation() {
+      // Obtém valores dos iputs
+      const a = parseFloat(document.getElementById("num1").value);
+      const b = parseFloat(document.getElementById("num2").value);
+
+      // Verifica valores
+      console.log("valor num1 = ", a, "  valo num2 = ", b);
+      // Armazena resultado da operação
+      let result = 0;
+
+      const option = document.getElementById("operation").value;
+
+      switch (option) {
+        case "add":
+          // Calcula a soma
+          result = a + b;
+          break;
+        case "div":
+          // Calcula divisão
+          result = a / b;
+          break;
+        case "sub":
+          // Calcula subtração
+          result = a - b;
+          break;
+        case "mul":
+          //calcula multiplicação
+          result = a * b;
+          break;
+      }
+
+      document.getElementById("result").innerText = result;
+    }
+    function clearInputs() {
+      document.getElementById("num1").value = "";
+      document.getElementById("num2").value = "";
+      document.getElementById("result").innerText = "";
+    }
+  </script>
+  <body>
+    <h1>Ex2</h1>
+
+    <label
+      >Number 1<input
+        type="text"
+        id="num1"
+    /></label>
+    <label
+      >Number 2<input
+        type="text"
+        id="num2"
+    /></label>
+
+    <select id="operation">
+      <option value="add">Addition</option>
+      <option value="div">Divison</option>
+      <option value="sub">Subtraction</option>
+      <option value="mul">Mutiplication</option>
+    </select>
+    <p>Result <span id="result"></span></p>
+
+    <button onclick="mathOperation()">Calculate</button>
+    <button onclick="clearInputs()">Clear</button>
+  </body>
+</html>

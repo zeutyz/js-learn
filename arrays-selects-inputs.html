@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Arrays</title>
+  </head>
+  <body>
+    <h1>Arrays</h1>
+    <div>
+      <h2>Add Fruit</h2>
+      <label for="fruit-name-add">Name</label>
+      <input
+        type="text"
+        id="fruit-name-add"
+      />
+      <label for="fruit-quantity-add">Quantity</label>
+      <input
+        type="text"
+        id="fruit-quantity-add"
+      />
+      <label for="fruit-price-add">Price</label>
+      <input
+        type="text"
+        id="fruit-price-add"
+      />
+    </div>
+    <button onclick="addFruit()">Register</button>
+    <h2>Fruit Catalog</h2>
+    <table id="fruit-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div>
+      <h2>Remove Fruit</h2>
+      <label for="select-fruits-remove">Select the fruit to remove</label>
+      <select
+        name="fruits"
+        id="select-fruits-remove"
+      ></select>
+      <button onclick="removeFruit()">Remove</button>
+    </div>
+    <div>
+      <h2>Update Fruit</h2>
+      <label for="select-fruits-update">Select the fruit to update</label>
+      <select
+        name="fruits"
+        id="select-fruits-update"
+      ></select>
+      <label for="fruit-name-update">Name</label>
+      <input
+        type="text"
+        id="fruit-name-update"
+        placeholder=""
+      />
+      <label for="fruit-quantity-update">Quantity</label>
+      <input
+        type="text"
+        id="fruit-quantity-update"
+        placeholder=""
+      />
+      <label for="fruit-price-update">Price</label>
+      <input
+        type="text"
+        id="fruit-price-update"
+        placeholder=""
+      />
+      <button onclick="updateFruit()">Update</button>
+    </div>
+
+    <script>
+      function Fruit(name, quantity, price) {
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+      }
+
+      var fruits = [];
+
+      function loadUpdateFruitsLabel(event) {
+        const fruitIndex = findFruitByName(event.target.value);
+        if (fruitIndex !== undefined && fruitIndex !== -1) {
+          document.getElementById("fruit-name-update").value =
+            fruits[fruitIndex].name;
+          document.getElementById("fruit-quantity-update").value =
+            fruits[fruitIndex].quantity;
+          document.getElementById("fruit-price-update").value =
+            fruits[fruitIndex].price.toFixed(2);
+        }
+      }
+
+      function addFruit() {
+        const name = document.getElementById("fruit-name-add").value;
+        const quantity = parseInt(
+          document.getElementById("fruit-quantity-add").value
+        );
+        const price = parseFloat(
+          document.getElementById("fruit-price-add").value
+        );
+
+        fruits.push(new Fruit(name, quantity, price));
+        updateAplication();
+      }
+
+      function removeFruit() {
+        const fruitIndex = findFruitByName(
+          document.getElementById("select-fruits-remove").value
+        );
+        if (fruitIndex !== undefined && fruitIndex !== -1) {
+          fruits.splice(fruitIndex, 1);
+          updateAplication();
+        }
+      }
+
+      function updateFruit() {
+        const fruitIndex = findFruitByName(
+          document.getElementById("select-fruits-update").value
+        );
+        if (fruitIndex !== undefined && fruitIndex !== -1) {
+          fruits[fruitIndex].name =
+            document.getElementById("fruit-name-update").value;
+          fruits[fruitIndex].quantity = parseInt(
+            document.getElementById("fruit-quantity-update").value
+          );
+          fruits[fruitIndex].price = parseFloat(
+            document.getElementById("fruit-price-update").value
+          );
+          updateAplication();
+        }
+      }
+
+      function updateTable() {
+        const tableBody = document
+          .getElementById("fruit-table")
+          .getElementsByTagName("tbody")[0];
+        tableBody.innerHTML = "";
+        fruits.forEach((item) => {
+          const row = tableBody.insertRow();
+          row.insertCell(0).textContent = item.name;
+          row.insertCell(1).textContent = item.quantity;
+          row.insertCell(2).textContent = item.price.toFixed(2);
+        });
+      }
+
+      function updateSelect() {
+        const selectRemove = document.getElementById("select-fruits-remove");
+        const selectUpdate = document.getElementById("select-fruits-update");
+        selectRemove.innerHTML = "";
+        selectUpdate.innerHTML = "";
+        fruits.forEach((fruit) => {
+          const optionRemove = document.createElement("option");
+          optionRemove.value = fruit.name;
+          optionRemove.textContent = fruit.name;
+          selectRemove.appendChild(optionRemove);
+
+          const optionUpdate = document.createElement("option");
+          optionUpdate.value = fruit.name;
+          optionUpdate.textContent = fruit.name;
+          selectUpdate.appendChild(optionUpdate);
+        });
+      }
+
+      function clearInputs() {
+        document.getElementById("fruit-name-add").value = "";
+        document.getElementById("fruit-quantity-add").value = "";
+        document.getElementById("fruit-price-add").value = "";
+        document.getElementById("fruit-name-update").value = "";
+        document.getElementById("fruit-quantity-update").value = "";
+        document.getElementById("fruit-price-update").value = "";
+      }
+
+      function findFruitByName(name) {
+        return fruits.findIndex((fruit) => fruit.name === name);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .getElementById("select-fruits-update")
+          .addEventListener("change", loadUpdateFruitsLabel);
+      });
+
+      function updateAplication() {
+        updateTable();
+        updateSelect();
+        clearInputs();
+      }
+    </script>
+  </body>
+</html>
